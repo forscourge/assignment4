@@ -334,14 +334,10 @@ public class SemanticAnalysis implements Visitor {
 
         /* Start of your code: */
         Decl funD;
-        funD = scopeStack.retrieve(x.idAST);
-        if(funD != null)
+        funD = scopeStack.retrieve(x.idAST.Lexeme);
+        if(!scopeStack.enter(x.idAST.Lexeme, x))
         {
         	reporter.reportError(errMsg[2], "",  x.pos);
-        }
-        else
-        {
-        	scopeStack.enter(x.idAST, x);
         }
         
         /* End of your code */
