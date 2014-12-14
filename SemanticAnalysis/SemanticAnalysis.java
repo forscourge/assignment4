@@ -364,7 +364,9 @@ public class SemanticAnalysis implements Visitor {
         // function's compound_stmt.
 
         /* Start of your code: */
-
+        scopeStack.openScope();
+        visit(x.stmtAST);
+        scopeStack.closeScope();
         /* End of your code */
 
 
