@@ -333,7 +333,17 @@ public class SemanticAnalysis implements Visitor {
         // name is already present in this scope.
 
         /* Start of your code: */
-
+        Decl funD;
+        funD = scopeStack.retrieve(x.idAST);
+        if(funD != null)
+        {
+        	reporter.reportError(errMsg[2], "",  x.pos);
+        }
+        else
+        {
+        	scopeStack.enter(x.idAST, x);
+        }
+        
         /* End of your code */
 
         // STEP 3:
@@ -342,6 +352,7 @@ public class SemanticAnalysis implements Visitor {
         // x.tAST is of type int.
 
         /* Start of your code: */
+        
 
         /* End of your code */
 
