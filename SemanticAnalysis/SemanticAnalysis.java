@@ -311,7 +311,7 @@ public class SemanticAnalysis implements Visitor {
 
         /* Start of your code: */
 	Decl D;
-	D = scopeStack.retrieve(main);
+	D = scopeStack.retrieve("main");
 	if(D == null)
 	{
 		reporter.reportError("#0: main function missing", "",  progAST.pos);
