@@ -560,7 +560,8 @@ public class SemanticAnalysis implements Visitor {
         // to learn about the AST children of this node.
 
         /* Start of your code: */
-
+		x.astDecl.accept(this);
+        x.astStmt.accept(this);
         /* End of your code */
 
         // STEP 1:
@@ -568,7 +569,7 @@ public class SemanticAnalysis implements Visitor {
         // for this compound statement (even if it represents a function body).
 
         /* Start of your code: */
-
+        scopeStack.closeScope();
         /* End of your code */
     }
 
@@ -596,7 +597,45 @@ public class SemanticAnalysis implements Visitor {
                // Perform i2f coercion if necessary.
 
                /* Start of your code: */
-
+            	if(!(x.eAST instanceof ExprSequence))
+            	{
+            		reporter.reportError(errMsg[15], "", x.pos);
+            	}
+            	else
+            	{
+            		ArrayType temp = (ArrayType)x.tAST;
+            		int arrRange = temp.GetRange();
+            		int i=0, n=0;
+            		Expr etemp = x.eAST;
+            		while((etemp instanceof ExprSequence) && (!(etemp instanceof EmptyExpr)))
+            		{
+            			n++;
+            			etemp = ((ExprSequence)etemp).rAST;
+            		}
+            		if(arrRange < n)
+            		{
+                		reporter.reportError(errMsg[16], "", x.pos);
+            		}
+            		else
+            		{
+            			ExprSequence estemp = (ExprSequence)x.eAST;
+            			for(i=0 ; i<n ; i++)
+            			{
+            				if(estemp.lAST.type.AssignableTo(temp.astType))
+            				{
+            					if( (estemp.lAST.type.Tequal(StdEnvironment.intType)) && (temp.astType.Tequal(StdEnvironment.floatType)) )
+            					{
+            						estemp.lAST = ief(estemp.lAST);
+            					}
+            				}
+            				else
+            				{
+                        		reporter.reportError(errMsg[13], "", x.pos);
+            				}
+            				estemp = (ExprSequence)estemp.rAST;
+            			}
+            		}
+            	}
                /* End of your code */
             } else {
                //STEP 4:
