@@ -597,6 +597,7 @@ public class SemanticAnalysis implements Visitor {
                // Perform i2f coercion if necessary.
 
                /* Start of your code: */
+            	/*
             	if(!(x.eAST instanceof ExprSequence))
             	{
             		reporter.reportError(errMsg[15], "", x.pos);
@@ -636,6 +637,7 @@ public class SemanticAnalysis implements Visitor {
             			}
             		}
             	}
+            	*/
                /* End of your code */
             } else {
                //STEP 4:
