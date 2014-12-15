@@ -893,7 +893,40 @@ public class SemanticAnalysis implements Visitor {
         // slightly more complicated case.
 
         /* Start of your code: */
-	
+		if(HasIntOrFloatArgs(x.oAST)) {
+		    if(x.eAST.type.Tequal(StdEnvironment.intType)){
+			x.oAST.type = StdEnvironment.intType;
+			if(HasBoolReturnType(x.oAST)) {
+			    x.type = StdEnvironment.boolType;
+			} else {
+			    x.type = StdEnvironment.intType;
+			}
+			return;
+		    } 
+		    else if(x.eAST.type.Tequal(StdEnvironment.floatType)) {
+			x.oAST.type = StdEnvironment.floatType;
+			if(HasBoolReturnType(x.oAST)) {
+			    x.type = StdEnvironment.boolType;
+			} else {
+			    x.type = StdEnvironment.floatType;
+			}
+			return;
+		    } 
+		} 
+		else if(HasBoolArgs(x.oAST)) {
+		    if(x.eAST.type.Tequal(StdEnvironment.boolType)) {
+			x.oAST.type = StdEnvironment.intType; //!!!!!!!!!!!!!!!!!!!!!
+			x.type = StdEnvironment.boolType;
+			return;
+		    }
+		}
+		x.oAST.type = StdEnvironment.errorType;
+		x.type = StdEnvironment.errorType;
+        if (!(x.eAST.type instanceof ErrorType))
+        {
+           // Error not spurious, because AST children are ok.
+	   reporter.reportError(errMsg[10], "", x.pos);
+        }
         /* End of your code */
     }
 
@@ -928,8 +961,13 @@ public class SemanticAnalysis implements Visitor {
         // where f is not a function. 
 
         /* Start of your code: */
-
+		if(!(D instanceof FunDecl))
+		{
+			reporter.reportError(errMsg[19], "", x.pos);
+			return;
+		}
         /* End of your code */
+	
 	FunDecl F = (FunDecl ) D;
         // STEP 2:
         // Check that the number of formal args from F and the number of actual
@@ -939,7 +977,18 @@ public class SemanticAnalysis implements Visitor {
         // the number of formal and actual parameters.
 
         /* Start of your code: */
+	int NrofFormalParam = GetNrOfFormalParams(F);
+	int NrofActualParam = GetNrOfActualParams(x);
 
+	if(NrofFormalParam < NrofActualParam)
+	{
+		reporter.reportError(errMsg[23], "", x.pos);
+	}
+	if(NrofFormalParam > NrofActualParam)
+	{
+		reporter.reportError(errMsg[24], "", x.pos);
+	}
+	
         /* End of your code */
 
         // STEP 2:
@@ -965,17 +1014,26 @@ public class SemanticAnalysis implements Visitor {
 
          * Start of your code:
 
-        int NrFormalParams = GetNrOfFormalParams(F);
-        for (int i = 1; i<= NrFormalParams; i++) {
+        */
+        for (int i = 1; i<= NrofFormalParam; i++) {
             FormalParamDecl Form = GetFormalParam(F, i);
             ActualParam Act = GetActualParam(x, i);
             Type FormalT = Form.astType;
             Type ActualT = Act.pAST.type;
-        */
+            if(ActualT.AssignableTo(FormalT))
+            {
+            	if( FormalT.Tequal(StdEncironment.floatType) && ActualT.Tequal(StdEncironment.intType) )
+            	{
+            		Act.pAST = i2f(Act.pAST);
+            	}
+            	else
+            	{
+            		reporter.reportError(errMsg[25], "", x.pos);
+            	}
+            }
 
 
-
-        //}
+        }
         /* End of your code */
 
 	// set the return type of the call expression to the return type of
@@ -998,7 +1056,10 @@ public class SemanticAnalysis implements Visitor {
             x.declAST = binding;
         }
         /* Start of your code: */
-
+        else
+        {
+    		reporter.reportError(errMsg[5], "", x.pos);
+        }
         /* End of your code */
     }
 
