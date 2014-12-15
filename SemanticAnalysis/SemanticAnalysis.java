@@ -647,7 +647,6 @@ public class SemanticAnalysis implements Visitor {
                // Perform i2f coercion if necessary.
 
                /* Start of your code: */
-            	if()
                /* End of your code */
             }
 	}
