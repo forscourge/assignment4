@@ -601,42 +601,23 @@ public class SemanticAnalysis implements Visitor {
             	}
             	else
             	{
-            		ArrayType temp = (ArrayType)x.tAST;
-            		int arrRange = temp.GetRange();
-            		int i=0, n=0;
             		Expr etemp = x.eAST;
-            		assert((etemp instanceof ExprSequence) || (etemp instanceof EmptyExpr));
-            		while((etemp instanceof ExprSequence) && !(etemp instanceof EmptyExpr))
-            		{
-            			n++;
-            			etemp = ((ExprSequence)etemp).rAST;
-                		assert((etemp instanceof ExprSequence) || (etemp instanceof EmptyExpr));
-            		}
-            		if(arrRange < n)
-            		{
-                		reporter.reportError(errMsg[16], "", x.pos);
-            		}
-            		else
-            		{
-            			ExprSequence estemp = (ExprSequence)x.eAST;
-            			for(i=0 ; i<n ; i++)
-            			{
-                    		assert(estemp.lAST instanceof Expr);
-            				if(estemp.lAST.type.AssignableTo(temp.astType))
-            				{
-            					if( (estemp.lAST.type.Tequal(StdEnvironment.intType)) && (temp.astType.Tequal(StdEnvironment.floatType)) )
-            					{
-            						estemp.lAST = i2f(estemp.lAST);
-            					}
-            				}
-            				else
-            				{
-                        		reporter.reportError(errMsg[13], "", x.pos);
-            				}
-            				estemp = (ExprSequence)estemp.rAST;
-            				estemp.accept(this);
-            			}
-            		}
+            		int range = ((ArrayType)x.tAST).GetRange();
+                    ExprSequence element = (ExprSequence)x.eAST;
+                    while ( (element.rAST instanceof ExprSequence) )
+                    {       
+                        range--; 
+                        if ( range == 0 ){
+                            reporter.reportError(errMsg[16], "", x.pos);
+                            return ;
+                        }
+                        if( !element.lAST.type.AssignableTo(x.tAST) )
+                            reporter.reportError(errMsg[13], "", x.pos);
+
+                        element = (ExprSequence)element.rAST;
+                        element.accept(this);
+                    }
+
             	}
                /* End of your code */
             } else {
