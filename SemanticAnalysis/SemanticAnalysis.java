@@ -448,7 +448,7 @@ public class SemanticAnalysis implements Visitor {
 
         /* Start of your code: */
 		if(!(x.rAST.type.AssignableTo(x.lAST.type))){
-			reporter.reportError(errMsg[6], "",  x.pos);
+			reporter.reportError(errMsg[6], "",  x.rAST.pos);
 		}
 		else if((x.lAST.type.Tequal(StdEnvironment.floatType) && x.rAST.type.Tequal(StdEnvironment.intType))){
             x.rAST = i2f(x.rAST);
@@ -473,7 +473,9 @@ public class SemanticAnalysis implements Visitor {
         // look at "for" loops, which use a similar check for the loop condition.
 
         /* Start of your code: */
-
+		if(!x.eAST.type.Tequal(StdEnvironment.boolType)){
+		    reporter.reportError(errMsg[20], "", x.eAST.pos);
+		}
         /* End of your code */
 	x.thenAST.accept(this);
 	if(x.elseAST != null) {
@@ -489,7 +491,9 @@ public class SemanticAnalysis implements Visitor {
         // look at "for" loops which use a similar check.
 
         /* Start of your code: */
-
+		if(!x.eAST.type.Tequal(StdEnvironment.boolType)){
+		    reporter.reportError(errMsg[22], "", x.eAST.pos);
+		}
         /* End of your code */
 	x.stmtAST.accept(this);
     }
@@ -516,7 +520,6 @@ public class SemanticAnalysis implements Visitor {
             // statement's expression with the return type of the function.
             // Uncomment this code
             // as soon as you have finished type-checking of expressions.
-            /* START:
             if(x.eAST.type.AssignableTo(currentFunctionReturnType)) {
                 // Check for type coercion: if the function returns float, but
                 // the expression of the return statement is of type int, we
@@ -529,7 +532,6 @@ public class SemanticAnalysis implements Visitor {
             } else {
                 reporter.reportError(errMsg[8], "", x.eAST.pos);
             }
-            END */
 	}
     }
 
@@ -549,7 +551,7 @@ public class SemanticAnalysis implements Visitor {
             // a function body.
 
             /* Start of your code: */
-
+			scopeStack.openScope();
             /* End of your code */
 	}
         // STEP 1:
