@@ -395,7 +395,9 @@ public class SemanticAnalysis implements Visitor {
         // Error 2 in that case.
 
         /* Start of your code: */
-
+		if(!scopeStack.enter(x.astIdent.Lexeme, x)){
+			reporter.reportError(errMsg[2], "",  x.pos);
+		}
         /* End of your code */
 
         // STEP 3:
@@ -403,7 +405,12 @@ public class SemanticAnalysis implements Visitor {
         // Report error messages 3 and 4 respectively:
 
         /* Start of your code: */
-
+		if(x.astType instanceof VoidType){
+			reporter.reportError(errMsg[3], "",  x.pos);
+		}
+		else if ((x.astType instanceof ArrayType) && (((ArrayType)x.astType).astType instanceof VoidType)){
+			reporter.reportError(errMsg[4], "",  x.pos);
+		}
         /* End of your code */
     }
 
