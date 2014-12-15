@@ -656,9 +656,9 @@ public class SemanticAnalysis implements Visitor {
             	{
             		reporter.reportError(errMsg[14], "", x.pos);
             	}
-            	if(x.eAST.type.AssignableTo(x.tAST.astType))
+            	if(x.eAST.type.AssignableTo(x.tAST))
 				{
-					if( (x.eAST.type.Tequal(StdEnvironment.intType)) && (x.tAST.astType.Tequal(StdEnvironment.floatType)) )
+					if( (x.eAST.type.Tequal(StdEnvironment.intType)) && (x.tAST.Tequal(StdEnvironment.floatType)) )
 					{
 						x.eAST = i2f(x.eAST);
 					}
@@ -677,7 +677,7 @@ public class SemanticAnalysis implements Visitor {
         // report Error 2.
 
         /* Start of your code: */
-		if(!scopeStack.enter(x.astIdent.Lexeme, x)){
+		if(!scopeStack.enter(x.idAST.Lexeme, x)){
 			reporter.reportError(errMsg[2], "",  x.pos);
 		}
         /* End of your code */
@@ -691,7 +691,7 @@ public class SemanticAnalysis implements Visitor {
 		{
 			reporter.reportError(errMsg[3], "",  x.pos);
 		}
-		if((x.tAST instanceof ArrayType) && (((ArrayType)x.tAST).type instanceof VoidType))
+		if((x.tAST instanceof ArrayType) && (((ArrayType)x.tAST).astType instanceof VoidType))
 		{
 			reporter.reportError(errMsg[4], "",  x.pos);
 		}
@@ -713,7 +713,7 @@ public class SemanticAnalysis implements Visitor {
         // Error 11 and set x.type to the error type from StdEnvironment.
         x.type = typeOfDecl (x.Ident.declAST);
         /* Start of your code: */
-        if(x.type instanceof FunDecl)
+        if(x.Ident.declAST instanceof FunDecl)
         {
 			reporter.reportError(errMsg[11], "",  x.pos);
 			x.type = StdEnvironment.errorType;
