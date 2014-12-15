@@ -567,9 +567,7 @@ public class SemanticAnalysis implements Visitor {
         // for this compound statement (even if it represents a function body).
 
         /* Start of your code: */
-	if (IsFunctionBlock) {
         scopeStack.closeScope();
-	}
         /* End of your code */
     }
 
