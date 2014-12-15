@@ -365,8 +365,6 @@ public class SemanticAnalysis implements Visitor {
 
         /* Start of your code: */
         scopeStack.openScope();
-    	x.stmtAST.accept(this);
-        scopeStack.closeScope();
         /* End of your code */
 
 
