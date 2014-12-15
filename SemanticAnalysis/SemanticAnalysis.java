@@ -447,7 +447,17 @@ public class SemanticAnalysis implements Visitor {
         // If conditions (1) or (2) are violated, then you should report Error 6.
 
         /* Start of your code: */
-
+		if(!(x.rAST.type.AssignableTo(x.lAST.type))){
+			reporter.reportError(errMsg[6], "",  x.pos);
+		}
+		else if((x.lAST.type.Tequal(StdEnvironment.floatType) && x.rAST.type.Tequal(StdEnvironment.intType))){
+            x.rAST = i2f(x.rAST);
+		}
+		else
+		{
+			reporter.reportError(errMsg[6], "",  x.pos);
+		}
+	
         /* End of your code */
 
 	if(!(x.lAST instanceof VarExpr) && !(x.lAST instanceof ArrayExpr)) {
