@@ -634,7 +634,6 @@ public class SemanticAnalysis implements Visitor {
             				{
                         		reporter.reportError(errMsg[13], "", x.pos);
             				}
-                    		assert(estemp.rAST instanceof ExprSequence);
             				estemp = (ExprSequence)estemp.rAST;
             			}
             		}
