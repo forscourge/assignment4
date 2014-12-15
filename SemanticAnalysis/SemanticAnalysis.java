@@ -445,11 +445,10 @@ public class SemanticAnalysis implements Visitor {
         // If conditions (1) or (2) are violated, then you should report Error 6.
 
         /* Start of your code: */
-		if(!(x.rAST.type.AssignableTo(x.lAST.type))){
-			reporter.reportError(errMsg[6], "",  x.rAST.pos);
-		}
-		else if((x.lAST.type.Tequal(StdEnvironment.floatType) && x.rAST.type.Tequal(StdEnvironment.intType))){
-            x.rAST = i2f(x.rAST);
+		if((x.rAST.type.AssignableTo(x.lAST.type))){
+			if((x.lAST.type.Tequal(StdEnvironment.floatType) && x.rAST.type.Tequal(StdEnvironment.intType))){
+	            x.rAST = i2f(x.rAST);
+			}
 		}
 		else
 		{
@@ -635,6 +634,7 @@ public class SemanticAnalysis implements Visitor {
                         		reporter.reportError(errMsg[13], "", x.pos);
             				}
             				estemp = (ExprSequence)estemp.rAST;
+            				estemp.accept(this);
             			}
             		}
             	}
