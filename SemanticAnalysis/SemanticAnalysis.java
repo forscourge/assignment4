@@ -551,7 +551,7 @@ public class SemanticAnalysis implements Visitor {
             // a function body.
 
             /* Start of your code: */
-		//	scopeStack.openScope();
+			scopeStack.openScope();
             /* End of your code */
 	}
         // STEP 1:
@@ -560,8 +560,8 @@ public class SemanticAnalysis implements Visitor {
         // to learn about the AST children of this node.
 
         /* Start of your code: */
-	//	x.astDecl.accept(this);
-    //    x.astStmt.accept(this);
+		x.astDecl.accept(this);
+		x.astStmt.accept(this);
         /* End of your code */
 
         // STEP 1:
@@ -569,7 +569,9 @@ public class SemanticAnalysis implements Visitor {
         // for this compound statement (even if it represents a function body).
 
         /* Start of your code: */
-      //  scopeStack.closeScope();
+	if (IsFunctionBlock) {
+        scopeStack.closeScope();
+	}
         /* End of your code */
     }
 
@@ -608,10 +610,12 @@ public class SemanticAnalysis implements Visitor {
             		int arrRange = temp.GetRange();
             		int i=0, n=0;
             		Expr etemp = x.eAST;
-            		while((etemp instanceof ExprSequence) && (!(etemp instanceof EmptyExpr)))
+            		assert((etemp instanceof ExprSequence) || (etemp instanceof EmptyExpr));
+            		while((etemp instanceof ExprSequence))
             		{
             			n++;
             			etemp = ((ExprSequence)etemp).rAST;
+                		assert((etemp instanceof ExprSequence) || (etemp instanceof EmptyExpr));
             		}
             		if(arrRange < n)
             		{
@@ -633,6 +637,7 @@ public class SemanticAnalysis implements Visitor {
             				{
                         		reporter.reportError(errMsg[13], "", x.pos);
             				}
+                    		assert(estemp.rAST instanceof ExprSequence);
             				estemp = (ExprSequence)estemp.rAST;
             			}
             		}
