@@ -652,7 +652,7 @@ public class SemanticAnalysis implements Visitor {
             	{
             		reporter.reportError(errMsg[14], "", x.pos);
             	}
-            	if(x.eAST.type.AssignableTo(x.tAST))
+            	else if(x.eAST.type.AssignableTo(x.tAST))
 				{
 					if( (x.eAST.type.Tequal(StdEnvironment.intType)) && (x.tAST.Tequal(StdEnvironment.floatType)) )
 					{
