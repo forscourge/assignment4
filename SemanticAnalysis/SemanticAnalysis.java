@@ -551,7 +551,7 @@ public class SemanticAnalysis implements Visitor {
             // a function body.
 
             /* Start of your code: */
-			scopeStack.openScope();
+		//	scopeStack.openScope();
             /* End of your code */
 	}
         // STEP 1:
@@ -560,8 +560,8 @@ public class SemanticAnalysis implements Visitor {
         // to learn about the AST children of this node.
 
         /* Start of your code: */
-		x.astDecl.accept(this);
-		x.astStmt.accept(this);
+	//	x.astDecl.accept(this);
+	//	x.astStmt.accept(this);
         /* End of your code */
 
         // STEP 1:
@@ -570,7 +570,7 @@ public class SemanticAnalysis implements Visitor {
 
         /* Start of your code: */
 	if (IsFunctionBlock) {
-        scopeStack.closeScope();
+     //   scopeStack.closeScope();
 	}
         /* End of your code */
     }
@@ -599,7 +599,7 @@ public class SemanticAnalysis implements Visitor {
                // Perform i2f coercion if necessary.
 
                /* Start of your code: */
-            	/*
+            	
             	if(!(x.eAST instanceof ExprSequence))
             	{
             		reporter.reportError(errMsg[15], "", x.pos);
@@ -642,7 +642,6 @@ public class SemanticAnalysis implements Visitor {
             			}
             		}
             	}
-            	*/
                /* End of your code */
             } else {
                //STEP 4:
