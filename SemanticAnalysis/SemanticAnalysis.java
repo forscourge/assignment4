@@ -606,7 +606,7 @@ public class SemanticAnalysis implements Visitor {
             		int i=0, n=0;
             		Expr etemp = x.eAST;
             		assert((etemp instanceof ExprSequence) || (etemp instanceof EmptyExpr));
-            		while((etemp instanceof ExprSequence))
+            		while((etemp instanceof ExprSequence) && !(etemp instanceof EmptyExpr))
             		{
             			n++;
             			etemp = ((ExprSequence)etemp).rAST;
@@ -633,7 +633,7 @@ public class SemanticAnalysis implements Visitor {
             				{
                         		reporter.reportError(errMsg[13], "", x.pos);
             				}
-            				estemp = (ExprSequence)estemp.rAST;
+            				estemp = ((ExprSequence)estemp).rAST;
             				estemp.accept(this);
             			}
             		}
