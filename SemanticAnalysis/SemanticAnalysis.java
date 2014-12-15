@@ -551,7 +551,7 @@ public class SemanticAnalysis implements Visitor {
             // a function body.
 
             /* Start of your code: */
-		//	scopeStack.openScope();
+			scopeStack.openScope();
             /* End of your code */
 	}
         // STEP 1:
@@ -560,8 +560,8 @@ public class SemanticAnalysis implements Visitor {
         // to learn about the AST children of this node.
 
         /* Start of your code: */
-	//	x.astDecl.accept(this);
-	//	x.astStmt.accept(this);
+		x.astDecl.accept(this);
+		x.astStmt.accept(this);
         /* End of your code */
 
         // STEP 1:
@@ -570,7 +570,7 @@ public class SemanticAnalysis implements Visitor {
 
         /* Start of your code: */
 	if (IsFunctionBlock) {
-     //   scopeStack.closeScope();
+        scopeStack.closeScope();
 	}
         /* End of your code */
     }
@@ -626,6 +626,7 @@ public class SemanticAnalysis implements Visitor {
             			ExprSequence estemp = (ExprSequence)x.eAST;
             			for(i=0 ; i<n ; i++)
             			{
+                    		assert(estemp.lAST instanceof Expr);
             				if(estemp.lAST.type.AssignableTo(temp.astType))
             				{
             					if( (estemp.lAST.type.Tequal(StdEnvironment.intType)) && (temp.astType.Tequal(StdEnvironment.floatType)) )
@@ -651,6 +652,21 @@ public class SemanticAnalysis implements Visitor {
                // Perform i2f coercion if necessary.
 
                /* Start of your code: */
+            	if((x.eAST instanceof ExprSequence))
+            	{
+            		reporter.reportError(errMsg[14], "", x.pos);
+            	}
+            	if(x.eAST.type.AssignableTo(x.tAST.astType))
+				{
+					if( (x.eAST.type.Tequal(StdEnvironment.intType)) && (x.tAST.astType.Tequal(StdEnvironment.floatType)) )
+					{
+						x.eAST = i2f(x.eAST);
+					}
+				}
+				else
+				{
+            		reporter.reportError(errMsg[6], "", x.pos);
+				}
                /* End of your code */
             }
 	}
@@ -661,7 +677,9 @@ public class SemanticAnalysis implements Visitor {
         // report Error 2.
 
         /* Start of your code: */
-
+		if(!scopeStack.enter(x.astIdent.Lexeme, x)){
+			reporter.reportError(errMsg[2], "",  x.pos);
+		}
         /* End of your code */
 
         // STEP 3:
@@ -669,8 +687,15 @@ public class SemanticAnalysis implements Visitor {
         // Report error messages 3 and 4 respectively:
 
         /* Start of your code: */
-
-        /* End of your code */
+		if(x.tAST instanceof VoidType)
+		{
+			reporter.reportError(errMsg[3], "",  x.pos);
+		}
+		if((x.tAST instanceof ArrayType) && (((ArrayType)x.tAST).type instanceof VoidType))
+		{
+			reporter.reportError(errMsg[4], "",  x.pos);
+		}
+		/* End of your code */
     }
 
     public void visit(DeclSequence x){
@@ -688,7 +713,11 @@ public class SemanticAnalysis implements Visitor {
         // Error 11 and set x.type to the error type from StdEnvironment.
         x.type = typeOfDecl (x.Ident.declAST);
         /* Start of your code: */
-
+        if(x.type instanceof FunDecl)
+        {
+			reporter.reportError(errMsg[11], "",  x.pos);
+			x.type = StdEnvironment.errorType;
+        }
         /* End of your code */
     }
 
@@ -717,7 +746,7 @@ public class SemanticAnalysis implements Visitor {
         // (StdEnvironment.intType).
 
         /* Start of your code: */
-
+    	x.type = StdEnvironment.intType;
         /* End of your code */
     }
 
@@ -728,7 +757,7 @@ public class SemanticAnalysis implements Visitor {
         // (StdEnvironment.floatType).
 
         /* Start of your code: */
-
+    	x.type = StdEnvironment.floatType;
         /* End of your code */
     }
 
@@ -739,7 +768,7 @@ public class SemanticAnalysis implements Visitor {
         // (StdEnvironment.boolType).
 
         /* Start of your code: */
-
+    	x.type = StdEnvironment.boolType;
         /* End of your code */
     }
 
@@ -750,7 +779,7 @@ public class SemanticAnalysis implements Visitor {
         // (StdEnvironment.stringType).
 
         /* Start of your code: */
-
+    	x.type = StdEnvironment.stringType;
         /* End of your code */
     }
 
@@ -813,7 +842,13 @@ public class SemanticAnalysis implements Visitor {
                 // This is the dual case to "int x float" above.
 
                 /* Start of your code: */
-
+		    	x.rAST = i2f(x.rAST);
+				x.oAST.type = StdEnvironment.floatType;
+				if(HasBoolReturnType(x.oAST)) {
+				    x.type = StdEnvironment.boolType;
+				} else {
+				    x.type = StdEnvironment.floatType;
+				}
                 /* End of your code */
 		return;
 	    }
@@ -858,7 +893,7 @@ public class SemanticAnalysis implements Visitor {
         // slightly more complicated case.
 
         /* Start of your code: */
-
+	
         /* End of your code */
     }
 
