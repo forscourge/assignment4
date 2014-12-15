@@ -625,7 +625,7 @@ public class SemanticAnalysis implements Visitor {
             				{
             					if( (estemp.lAST.type.Tequal(StdEnvironment.intType)) && (temp.astType.Tequal(StdEnvironment.floatType)) )
             					{
-            						estemp.lAST = ief(estemp.lAST);
+            						estemp.lAST = i2f(estemp.lAST);
             					}
             				}
             				else
