@@ -979,12 +979,13 @@ public class SemanticAnalysis implements Visitor {
 	if(NrofFormalParam < NrofActualParam)
 	{
 		reporter.reportError(errMsg[23], "", x.pos);
+		return;
 	}
-	if(NrofFormalParam > NrofActualParam)
+	else if(NrofFormalParam > NrofActualParam)
 	{
 		reporter.reportError(errMsg[24], "", x.pos);
+		return;
 	}
-	
         /* End of your code */
 
         // STEP 2:
@@ -1027,11 +1028,8 @@ public class SemanticAnalysis implements Visitor {
         	{
         		reporter.reportError(errMsg[25], "", x.pos);
         	}
-
-
         }
         /* End of your code */
-
 	// set the return type of the call expression to the return type of
 	// its function:
 	x.type = typeOfDecl(F);
