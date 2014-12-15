@@ -601,21 +601,26 @@ public class SemanticAnalysis implements Visitor {
             	}
             	else
             	{
+            		int arrRange = ((ArrayType)x.tAST).GetRange();
             		Expr etemp = x.eAST;
-            		int range = ((ArrayType)x.tAST).GetRange();
-                    ExprSequence element = (ExprSequence)x.eAST;
-                    while ( (element.rAST instanceof ExprSequence) )
+                    ExprSequence estemp = (ExprSequence)x.eAST;
+                    
+                    while (estemp.rAST instanceof ExprSequence)
                     {       
-                        range--; 
-                        if ( range == 0 ){
+                    	arrRange--; 
+                        if ( arrRange == 0 )
+                        {
                             reporter.reportError(errMsg[16], "", x.pos);
                             return ;
                         }
-                        if( !element.lAST.type.AssignableTo(x.tAST) )
+                        
+                        if(!estemp.lAST.type.AssignableTo(x.tAST))
+                        {
                             reporter.reportError(errMsg[13], "", x.pos);
-
-                        element = (ExprSequence)element.rAST;
-                        element.accept(this);
+                        }
+                        
+                        estemp = (ExprSequence)estemp.rAST;
+                        estemp.accept(this);
                     }
 
             	}
