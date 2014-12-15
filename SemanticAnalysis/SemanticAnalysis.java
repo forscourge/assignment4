@@ -1022,7 +1022,7 @@ public class SemanticAnalysis implements Visitor {
             Type ActualT = Act.pAST.type;
             if(ActualT.AssignableTo(FormalT))
             {
-            	if( FormalT.Tequal(StdEncironment.floatType) && ActualT.Tequal(StdEncironment.intType) )
+            	if( FormalT.Tequal(StdEnvironment.floatType) && ActualT.Tequal(StdEnvironment.intType) )
             	{
             		Act.pAST = i2f(Act.pAST);
             	}
