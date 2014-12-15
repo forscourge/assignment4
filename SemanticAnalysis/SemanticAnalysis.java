@@ -1026,11 +1026,11 @@ public class SemanticAnalysis implements Visitor {
             	{
             		Act.pAST = i2f(Act.pAST);
             	}
-            	else
-            	{
-            		reporter.reportError(errMsg[25], "", x.pos);
-            	}
             }
+        	else
+        	{
+        		reporter.reportError(errMsg[25], "", x.pos);
+        	}
 
 
         }
